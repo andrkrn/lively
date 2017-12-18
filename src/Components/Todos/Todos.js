@@ -15,9 +15,8 @@ const styles = theme => ({
   }
 })
 
-const Todos = ({ classes, sections, onAddSection }) => (
+const Todos = ({ sectionName, updateInputValue, handleSubmit, classes, sections, onAddSection }) => (
   <div>
-    <TodoSection sections={sections} />
     <div>
       <TextField
         required
@@ -25,28 +24,54 @@ const Todos = ({ classes, sections, onAddSection }) => (
         label="Section Name"
         margin="normal"
         className={classes.textField}
+        value={sectionName}
+        onChange={e => updateInputValue(e)}
       />
       <Button
         raised
-        onClick={() => onAddSection("something") }>
+        onClick={() => handleSubmit() }>
         Add Section
       </Button>
     </div>
+    <TodoSection sections={sections} />
   </div>
 );
 
 class RequestLayer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      sectionName: ""
+    };
+    this.updateInputValue = this.updateInputValue.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
   componentDidMount() {
     this.props.getSection();
   }
 
+  updateInputValue(e) {
+    this.setState({
+      sectionName: e.target.value
+    });
+  }
+
+  handleSubmit() {
+    this.props.onAddSection(this.state.sectionName);
+  }
+
   render() {
     return (
-      <Todos {...this.props} />
+      <Todos
+        sectionName={this.state.sectionName}
+        handleSubmit={this.handleSubmit}
+        updateInputValue={this.updateInputValue}
+        {...this.props} />
     );
   }
 }
-
 
 const mapStateToProps = (state) => ({
   sections: state.todo.sections
