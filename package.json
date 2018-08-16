@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "firebase": "^4.5.0",
+    "firebase": "^5.4.0",
     "lodash": "^4.17.4",
     "material-ui": "^1.0.0-beta.24",
     "material-ui-icons": "^1.0.0-beta.10",
